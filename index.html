@@ -104,7 +104,29 @@ nav.links a:hover::after{width:100%}
     var(--cream);
   overflow:clip;
 }
-.hero h1{font-size:clamp(2.6rem,7vw,5.2rem);color:var(--burgundy);line-height:1}
+.hero h1{font-size:clamp(2.6rem,7vw,5.2rem);color:var(--burgundy);line-height:1;overflow:visible}
+.hero h1 .ln{display:inline-block;overflow:hidden;vertical-align:top}
+.hero h1 .ln i{display:inline-block;font-style:normal;transform:translateY(105%);animation:lnUp 1s cubic-bezier(.16,1,.3,1) .3s forwards}
+@keyframes lnUp{to{transform:none}}
+.hero .eyebrow,.hero .sub,.hero p.desc,.hero .cta-row,.hero .like-btn{opacity:0;animation:heroFade .8s ease forwards}
+.hero .eyebrow{animation-delay:.1s}
+.hero .sub{animation-delay:.55s}
+.hero p.desc{animation-delay:.75s}
+.hero .cta-row{animation-delay:.95s}
+.hero .like-btn{animation-delay:1.1s}
+@keyframes heroFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){
+  .hero h1 .ln i{animation:none;transform:none}
+  .hero .eyebrow,.hero .sub,.hero p.desc,.hero .cta-row,.hero .like-btn{animation:none;opacity:1}
+}
+
+/* section divider — a hairline with the brand heart at centre */
+.divider{display:flex;align-items:center;gap:14px;max-width:220px;margin:0 auto;padding:0}
+section:has(+ .divider){padding-bottom:34px}
+.divider + section{padding-top:34px}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.divider::after{background:linear-gradient(90deg,var(--gold),transparent)}
+.divider svg{width:16px;height:16px;flex:0 0 auto;fill:var(--gold)}
 .hero .sub{font-family:'Marck Script',cursive;font-size:1.9rem;color:var(--burgundy-light);margin-top:.4rem}
 .hero p.desc{max-width:560px;margin:1.6rem auto 2.2rem;font-size:1.15rem;line-height:1.7;color:#4a2622}
 .hero .cta-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
@@ -440,7 +462,7 @@ footer .script{color:var(--rose);font-size:1.3rem}
   </div>
   <div>
     <span class="eyebrow">кафе · кофейня · кондитерская</span>
-    <h1>Moulinovka</h1>
+    <h1><span class="ln"><i>Moulinovka</i></span></h1>
     <div class="sub">на Малиновке</div>
     <p class="desc">Уютное место с домашними десертами, выпечкой и авторским мороженым — там, где чашка кофе становится маленьким событием дня.</p>
     <div class="cta-row">
@@ -483,6 +505,8 @@ footer .script{color:var(--rose);font-size:1.3rem}
   </div>
 </section>
 
+<div class="divider"><svg viewBox="0 0 32 32"><path d="M16 27C7 20 4 14 4 10a6 6 0 0 1 12-2 6 6 0 0 1 12 2c0 4-3 10-12 17Z"/></svg></div>
+
 <section class="facts-wrap">
   <div class="facts-strip reveal">
     <div class="fact">
@@ -491,8 +515,8 @@ footer .script{color:var(--rose);font-size:1.3rem}
     </div>
     <div class="fact">
       <div class="ico"><svg viewBox="0 0 32 32"><path d="M16 5v22M6 16h20"/><circle cx="16" cy="16" r="11"/></svg></div>
-      <b>07:00</b>
-      <p>открываем двери — самое время зайти за свежим круассаном</p>
+      <b>7:30–21:30</b>
+      <p>работаем ежедневно, без выходных</p>
     </div>
     <div class="fact">
       <div class="ico"><svg viewBox="0 0 32 32"><path d="M16 27C7 20 4 14 4 10a6 6 0 0 1 12-2 6 6 0 0 1 12 2c0 4-3 10-12 17Z"/></svg></div>
@@ -617,6 +641,8 @@ footer .script{color:var(--rose);font-size:1.3rem}
   </div>
 </section>
 
+<div class="divider"><svg viewBox="0 0 32 32"><path d="M16 27C7 20 4 14 4 10a6 6 0 0 1 12-2 6 6 0 0 1 12 2c0 4-3 10-12 17Z"/></svg></div>
+
 <section>
   <div class="wrap">
     <div class="section-head reveal">
@@ -656,7 +682,7 @@ footer .script{color:var(--rose);font-size:1.3rem}
           <div><dt>Адрес</dt><dd>Минск, ул. Яна Чечота, 7, этаж 1<br><span style="opacity:.7;font-size:.9rem">100 м от ст. метро «Малиновка»</span></dd></div>
           <div><dt>Телефон</dt><dd><a href="tel:+375447967433">+375 44 796-74-33</a></dd></div>
           <!-- TODO(owner): уточнить время открытия и график по дням -->
-          <div><dt>Время работы</dt><dd>Ежедневно, до 21:30</dd></div>
+          <div><dt>Время работы</dt><dd>Ежедневно, 7:30–21:30</dd></div>
         </dl>
         <div class="social-row">
           <a href="https://instagram.com/cafe.moulin" target="_blank" rel="noopener">Instagram</a>
