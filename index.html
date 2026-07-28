@@ -77,7 +77,7 @@ nav.links a{position:relative;padding:.2em 0}
 nav.links a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:1px;background:var(--burgundy);transition:.25s}
 nav.links a:hover::after{width:100%}
 .phone-pill{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--burgundy)}
-#burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none}
+#burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:12px 8px}
 #burger span{width:24px;height:2px;background:var(--burgundy)}
 #stickyCall{display:none;position:fixed;right:16px;bottom:16px;z-index:400;background:var(--burgundy);color:var(--cream);padding:.8em 1.3em;border-radius:2px;font-family:'Cormorant Garamond',serif;font-size:1.1rem;box-shadow:0 6px 20px rgba(0,0,0,.25)}
 
@@ -101,18 +101,33 @@ nav.links a:hover::after{width:100%}
 .hero p.desc{max-width:560px;margin:1.6rem auto 2.2rem;font-size:1.15rem;line-height:1.7;color:#4a2622}
 .hero .cta-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
 .hero .rating-line{margin-top:2.4rem;font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--burgundy)}
-.deco-frame{position:absolute;pointer-events:none;opacity:.5}
+.deco-frame{position:absolute;pointer-events:none;opacity:.55;will-change:transform}
 .deco-frame.tl{top:60px;left:2%;width:120px;transform:rotate(-8deg)}
 .deco-frame.br{bottom:40px;right:2%;width:150px;transform:rotate(6deg)}
+.scroll-cue{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:.6}
+.scroll-cue .line{width:1px;height:46px;background:linear-gradient(180deg,var(--burgundy),transparent);animation:cueDrop 1.8s ease-in-out infinite}
+@keyframes cueDrop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}50.01%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.scroll-cue span{font-family:'Marck Script',cursive;font-size:1rem;color:var(--burgundy)}
+
+/* marquee */
+.marquee-strip{background:var(--ink);overflow:clip;padding:18px 0;border-top:1px solid var(--gold);border-bottom:1px solid var(--gold)}
+.marquee-track{display:flex;width:max-content;animation:marqueeMove 32s linear infinite}
+.marquee-track span{display:flex;align-items:center;gap:.9rem;padding:0 2rem;font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--cream);white-space:nowrap}
+.marquee-track span i{font-family:'Marck Script',cursive;color:var(--rose);font-style:normal}
+@keyframes marqueeMove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 section{padding:96px 0}
 .section-head{text-align:center;margin-bottom:56px}
 .section-head h2{font-size:clamp(2rem,4vw,2.8rem);color:var(--burgundy)}
 
 /* about */
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
-.about-grid .col-photo{position:relative}
-.about-grid .col-photo img{width:100%;border-radius:2px;box-shadow:0 20px 50px -20px rgba(60,10,19,.4)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:stretch}
+.about-grid .col-photo{position:relative;height:100%}
+.about-grid .photo-sticky{position:sticky;top:110px}
+.about-grid .photo-frame{position:relative;overflow:clip;border-radius:2px;box-shadow:0 24px 60px -24px rgba(60,10,19,.45)}
+.about-grid .photo-frame img{width:100%;transform:scale(1.18);transition:transform .1s linear;will-change:transform}
+.about-grid .photo-frame::after{content:"";position:absolute;inset:0;border:1px solid rgba(246,236,219,.5);pointer-events:none}
+.about-badge{position:absolute;bottom:-22px;left:-22px;background:var(--burgundy);color:var(--cream);width:108px;height:108px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-family:'Marck Script',cursive;font-size:1.05rem;line-height:1.2;box-shadow:0 10px 30px -8px rgba(60,10,19,.6);transform:rotate(-8deg)}
 .about-grid .col-text p{font-size:1.12rem;line-height:1.85;margin-bottom:1.2rem;color:#3a1c19}
 .marks{display:flex;gap:2.4rem;margin-top:2rem}
 .marks .m{text-align:left}
@@ -138,8 +153,8 @@ section{padding:96px 0}
 /* gallery */
 .gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:190px;gap:10px}
 .gallery figure{overflow:hidden;position:relative;border-radius:2px}
-.gallery img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
-.gallery figure:hover img{transform:scale(1.06)}
+.gallery img{width:100%;height:130%;object-fit:cover;transform:translateY(-8%);transition:transform .5s ease;will-change:transform}
+.gallery figure:hover img{transform:translateY(-8%) scale(1.06)}
 .gallery figure.tall{grid-row:span 2}
 .gallery figure.wide{grid-column:span 2}
 .gal-caption{position:absolute;left:0;right:0;bottom:0;padding:10px 12px;background:linear-gradient(0deg,rgba(30,6,11,.75),transparent);color:#fff;font-family:'Cormorant Garamond',serif;font-size:.95rem;opacity:0;transition:.25s}
@@ -192,6 +207,8 @@ footer .script{color:var(--rose);font-size:1.3rem}
 }
 @media(max-width:860px){
   .about-grid{grid-template-columns:1fr}
+  .photo-sticky{position:static}
+  .about-badge{right:16px;left:auto}
   .ice-grid{grid-template-columns:repeat(2,1fr)}
   .ice-item:nth-child(3n+1){border-right:1px solid rgba(246,236,219,.25)}
   .ice-item:nth-child(2n){border-right:none}
@@ -222,6 +239,10 @@ footer .script{color:var(--rose);font-size:1.3rem}
 }
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
 .reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  .marquee-track{animation:none}
+  .deco-frame,.about-grid .photo-frame img,.gallery img{transition:none!important}
+}
 </style>
 </head>
 <body class="lock">
@@ -259,12 +280,23 @@ footer .script{color:var(--rose);font-size:1.3rem}
     </div>
     <div class="rating-line">★ 4,8 · 863 оценки на Яндекс Картах</div>
   </div>
+  <div class="scroll-cue"><span>листайте</span><div class="line"></div></div>
 </section>
+
+<div class="marquee-strip">
+  <div class="marquee-track" id="marquee">
+    <span>Круассаны <i>каждое утро</i> · Авторские сорбеты · Десерты ручной работы · Кофе с собой · Круассаны <i>каждое утро</i> · Авторские сорбеты · Десерты ручной работы · Кофе с собой ·</span>
+    <span>Круассаны <i>каждое утро</i> · Авторские сорбеты · Десерты ручной работы · Кофе с собой · Круассаны <i>каждое утро</i> · Авторские сорбеты · Десерты ручной работы · Кофе с собой ·</span>
+  </div>
+</div>
 
 <section id="about">
   <div class="wrap about-grid">
     <div class="col-photo reveal">
-      <img src="img/cupbrand.jpg" alt="Фирменный стакан Moulinovka с логотипом сердца">
+      <div class="photo-sticky">
+        <div class="photo-frame"><img id="aboutImg" src="img/cupbrand.jpg" alt="Фирменный стакан Moulinovka с логотипом сердца"></div>
+        <div class="about-badge">рейтинг 4,8 ★</div>
+      </div>
     </div>
     <div class="col-text reveal">
       <span class="eyebrow">История</span>
@@ -272,9 +304,9 @@ footer .script{color:var(--rose);font-size:1.3rem}
       <p>Moulinovka — кафе-кондитерская на улице Яна Чечота, 7, рядом со станцией метро «Малиновка». Здесь пекут круассаны и тарты, готовят авторские сорбеты и мороженое, а к каждой чашке кофе можно взять что-то из витрины десертов.</p>
       <p>Гости отмечают именно атмосферу — «уютная и необычная», негромкая музыка и немноголюдный зал — а один из отзывов на Яндекс Картах называет здешние десерты «трёхнотной структурой дорогого парфюма», где вкус раскрывается постепенно.</p>
       <div class="marks">
-        <div class="m"><b>4,8</b><span>рейтинг · 863 оценки</span></div>
-        <div class="m"><b>339</b><span>отзывов</span></div>
-        <div class="m"><b>93%</b><span>положительных о еде</span></div>
+        <div class="m"><b data-count="4.8" data-decimal="1">0</b><span>рейтинг · 863 оценки</span></div>
+        <div class="m"><b data-count="339">0</b><span>отзывов</span></div>
+        <div class="m"><b data-count="93" data-suffix="%">0</b><span>положительных о еде</span></div>
       </div>
     </div>
   </div>
@@ -319,7 +351,7 @@ footer .script{color:var(--rose);font-size:1.3rem}
         <p class="desc">Классический пломбир с честными 15% молочного жира и чистым молочным вкусом.</p>
       </div>
     </div>
-    <div class="menu-updated">Источник цен: официальное меню организации на Яндекс Картах. Средний чек по отзывам гостей — от 15 Br.</div>
+    <div class="menu-updated">Источник цен: официальное меню организации на Яндекс Картах.</div>
   </div>
 </section>
 
@@ -407,7 +439,6 @@ footer .script{color:var(--rose);font-size:1.3rem}
           <div><dt>Адрес</dt><dd>Минск, ул. Яна Чечота, 7, этаж 1<br><span style="opacity:.7;font-size:.9rem">100 м от ст. метро «Малиновка»</span></dd></div>
           <div><dt>Телефон</dt><dd><a href="tel:+375447967433">+375 44 796-74-33</a></dd></div>
           <div><dt>Время работы</dt><dd>Ежедневно, до 21:30<br><span style="opacity:.7;font-size:.9rem">TODO: уточнить время открытия и график по дням</span></dd></div>
-          <div><dt>Средний чек</dt><dd>от 15 Br</dd></div>
         </dl>
         <div class="social-row">
           <a href="https://instagram.com/cafe.moulin" target="_blank" rel="noopener">Instagram</a>
@@ -423,7 +454,6 @@ footer .script{color:var(--rose);font-size:1.3rem}
 <footer>
   <div class="script">Moulinovka</div>
   <p>ул. Яна Чечота, 7, Минск · +375 44 796-74-33</p>
-  <p style="margin-top:8px;opacity:.7">Неофициальный лендинг, собран по открытым данным Яндекс Карт. Логотип и фирменный стиль — собственность заведения.</p>
 </footer>
 
 <script>
@@ -446,6 +476,72 @@ footer .script{color:var(--rose);font-size:1.3rem}
     entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   },{threshold:.15});
   els.forEach(function(el){ io.observe(el); });
+
+  var reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* counters */
+  var counters=document.querySelectorAll('[data-count]');
+  var cio=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      cio.unobserve(e.target);
+      var el=e.target, target=parseFloat(el.getAttribute('data-count'));
+      var decimals=parseInt(el.getAttribute('data-decimal')||'0',10);
+      var suffix=el.getAttribute('data-suffix')||'';
+      var start=performance.now(), dur=1400;
+      function tick(now){
+        var p=Math.min(1,(now-start)/dur);
+        var eased=1-Math.pow(1-p,3);
+        el.textContent=(target*eased).toFixed(decimals).replace('.',',')+suffix;
+        if(p<1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+  },{threshold:.5});
+  counters.forEach(function(el){ cio.observe(el); });
+
+  /* hero decorative parallax + sticky about photo zoom + gallery parallax */
+  var heroHearts=document.querySelectorAll('.deco-frame');
+  var aboutImg=document.getElementById('aboutImg');
+  var aboutSection=document.getElementById('about');
+  var galleryImgs=document.querySelectorAll('.gallery img');
+  var gallerySection=document.getElementById('gallery');
+  var ticking=false;
+
+  function onScroll(){
+    if(reduceMotion){ ticking=false; return; }
+    var y=window.scrollY||window.pageYOffset;
+
+    heroHearts.forEach(function(el,i){
+      var factor=i===0?0.12:-0.09;
+      el.style.transform=(el.classList.contains('tl')?'rotate(-8deg)':'rotate(6deg)')+' translateY('+(y*factor)+'px)';
+    });
+
+    if(aboutImg && aboutSection){
+      var r=aboutSection.getBoundingClientRect();
+      var vh=window.innerHeight;
+      var progress=1-Math.min(1,Math.max(0,(r.top+r.height*0.3)/(vh+r.height)));
+      var scale=1.18-progress*0.14;
+      aboutImg.style.transform='scale('+scale+')';
+    }
+
+    if(gallerySection){
+      var gr=gallerySection.getBoundingClientRect();
+      if(gr.top<window.innerHeight && gr.bottom>0){
+        galleryImgs.forEach(function(img){
+          var fr=img.parentElement.getBoundingClientRect();
+          var center=fr.top+fr.height/2-window.innerHeight/2;
+          var shift=Math.max(-14,Math.min(14,-center*0.05));
+          img.style.transform='translateY('+(-8+shift)+'%)';
+        });
+      }
+    }
+    ticking=false;
+  }
+  window.addEventListener('scroll',function(){
+    if(!ticking){ requestAnimationFrame(onScroll); ticking=true; }
+  },{passive:true});
+  onScroll();
 })();
 </script>
 </body>
