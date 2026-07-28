@@ -288,10 +288,11 @@ section{padding:76px 0}
 .contact-info dd a{display:inline-block;padding:.3em 0}
 .hours-card{margin-top:8px}
 .hours-label{display:block;font-family:'Cormorant Garamond',serif;letter-spacing:.14em;text-transform:uppercase;font-size:.85rem;color:var(--rose);margin-bottom:12px}
-.hours-row{display:flex;align-items:baseline;gap:8px;padding:9px 0}
-.hours-row .day{white-space:nowrap;font-size:1.05rem}
-.hours-row .leader{flex:1;border-bottom:1px dotted rgba(246,236,219,.3);margin-bottom:5px}
-.hours-row b{font-family:'PT Serif',serif;font-weight:700;white-space:nowrap;font-size:1.05rem}
+.hours-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px dotted rgba(246,236,219,.25)}
+.hours-row:last-of-type{border-bottom:none}
+.hours-row .day{white-space:nowrap;font-size:1.02rem}
+.hours-row .leader{display:none}
+.hours-row b{font-family:'PT Serif',serif;font-weight:700;white-space:nowrap;font-size:1.02rem}
 .hours-note{margin-top:12px;font-size:.9rem;font-style:italic;color:rgba(246,236,219,.65);line-height:1.6}
 .social-row{display:flex;gap:14px;margin-top:30px}
 .social-row a{
@@ -650,10 +651,16 @@ footer .script{color:var(--rose);font-size:1.3rem}
           <div><dt>Адрес</dt><dd>Минск, ул. Яна Чечота, 7, этаж 1<br><span style="opacity:.7;font-size:.9rem">100 м от ст. метро «Малиновка»</span></dd></div>
           <div><dt>Телефон</dt><dd><a href="tel:+375447967433">+375 44 796-74-33</a></dd></div>
         </dl>
-        <!-- TODO(owner): уточнить, отличается ли график по дням недели -->
+        <!-- TODO(owner): уточнить, отличается ли график по дням недели — сейчас указано одинаковое время на все дни -->
         <div class="hours-card">
           <span class="hours-label">Часы работы</span>
-          <div class="hours-row"><span class="day">Ежедневно</span><span class="leader"></span><b>7:30–21:30</b></div>
+          <div class="hours-row"><span class="day">Понедельник</span><b>7:30–21:30</b></div>
+          <div class="hours-row"><span class="day">Вторник</span><b>7:30–21:30</b></div>
+          <div class="hours-row"><span class="day">Среда</span><b>7:30–21:30</b></div>
+          <div class="hours-row"><span class="day">Четверг</span><b>7:30–21:30</b></div>
+          <div class="hours-row"><span class="day">Пятница</span><b>7:30–21:30</b></div>
+          <div class="hours-row"><span class="day">Суббота</span><b>7:30–21:30</b></div>
+          <div class="hours-row"><span class="day">Воскресенье</span><b>7:30–21:30</b></div>
           <p class="hours-note">В праздничные дни расписание может отличаться — уточняйте по телефону.</p>
         </div>
         <div class="social-row">
