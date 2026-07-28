@@ -85,6 +85,7 @@ nav.links a:hover::after{width:100%}
 .hero{
   position:relative;
   min-height:100vh;
+  min-height:100svh;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -95,15 +96,39 @@ nav.links a:hover::after{width:100%}
     var(--cream);
   overflow:clip;
 }
-.hero .heart-icon{width:74px;margin:0 auto 18px;opacity:.92}
 .hero h1{font-size:clamp(2.6rem,7vw,5.2rem);color:var(--burgundy);line-height:1}
 .hero .sub{font-family:'Marck Script',cursive;font-size:1.9rem;color:var(--burgundy-light);margin-top:.4rem}
 .hero p.desc{max-width:560px;margin:1.6rem auto 2.2rem;font-size:1.15rem;line-height:1.7;color:#4a2622}
 .hero .cta-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
 .hero .rating-line{margin-top:2.4rem;font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--burgundy)}
-.deco-frame{position:absolute;pointer-events:none;opacity:.55;will-change:transform}
-.deco-frame.tl{top:60px;left:2%;width:120px;transform:rotate(-8deg)}
-.deco-frame.br{bottom:40px;right:2%;width:150px;transform:rotate(6deg)}
+
+/* decorative "live pastry" badges — hand-drawn line art, not stock photos */
+.deco-frame{position:absolute;pointer-events:none;will-change:transform}
+.deco-frame.tl{top:64px;left:3%}
+.deco-frame.br{bottom:52px;right:3%}
+.deco-cake{
+  width:132px;height:132px;border-radius:50%;
+  background:radial-gradient(circle at 32% 24%,rgba(255,255,255,.22),transparent 60%),var(--burgundy);
+  box-shadow:0 22px 46px -18px rgba(60,10,19,.55),inset 0 0 0 1px rgba(246,236,219,.35);
+  display:flex;align-items:center;justify-content:center;padding:22px;
+}
+.deco-cake svg{width:100%;height:100%;overflow:visible}
+.pipe-path{fill:none;stroke:var(--cream);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:300;stroke-dashoffset:300;animation:pipeDraw 4.2s ease-in-out infinite}
+@keyframes pipeDraw{0%,100%{stroke-dashoffset:300}55%,70%{stroke-dashoffset:0}}
+.pipe-tip{fill:var(--rose);offset-path:path('M50 85 C20 65 0 45 0 25 C0 10 12 0 25 0 C35 0 45 8 50 18 C55 8 65 0 75 0 C88 0 100 10 100 25 C100 45 80 65 50 85 Z');
+  animation:pipeTip 4.2s ease-in-out infinite}
+@keyframes pipeTip{0%,100%{offset-distance:0%;opacity:0}8%{opacity:1}55%,70%{offset-distance:100%;opacity:1}75%{opacity:0}}
+.deco-ring{fill:none;stroke:var(--rose);stroke-width:1;opacity:0;transform-origin:50% 50%;
+  animation:ringPulse 3.6s ease-out infinite}
+.deco-ring.r2{animation-delay:1.2s}
+.deco-ring.r3{animation-delay:2.4s}
+@keyframes ringPulse{0%{transform:scale(.6);opacity:.55}100%{transform:scale(1.55);opacity:0}}
+.deco-heart-fill{fill:var(--rose)}
+@media(prefers-reduced-motion:reduce){
+  .pipe-path,.pipe-tip,.deco-ring{animation:none}
+  .pipe-path{stroke-dashoffset:0}
+}
 .scroll-cue{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:.6}
 .scroll-cue .line{width:1px;height:46px;background:linear-gradient(180deg,var(--burgundy),transparent);animation:cueDrop 1.8s ease-in-out infinite}
 @keyframes cueDrop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}50.01%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
@@ -150,16 +175,35 @@ section{padding:96px 0}
 .ice-item p.desc{margin-top:.5rem;font-size:.92rem;line-height:1.55;color:rgba(246,236,219,.75)}
 .menu-updated{text-align:center;margin-top:34px;font-size:.85rem;color:rgba(246,236,219,.55);font-style:italic}
 
-/* gallery */
-.gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:190px;gap:10px}
-.gallery figure{overflow:hidden;position:relative;border-radius:2px}
+/* gallery — full-bleed, edge to edge for a fullscreen showcase feel */
+#gallery{padding-left:0;padding-right:0}
+#gallery .section-head{padding:0 28px}
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:22vw;gap:6px;padding:0 6px;max-width:none}
+.gallery figure{overflow:hidden;position:relative;border-radius:2px;cursor:pointer}
 .gallery img{width:100%;height:130%;object-fit:cover;transform:translateY(-8%);transition:transform .5s ease;will-change:transform}
 .gallery figure:hover img{transform:translateY(-8%) scale(1.06)}
 .gallery figure.tall{grid-row:span 2}
 .gallery figure.wide{grid-column:span 2}
 .gal-caption{position:absolute;left:0;right:0;bottom:0;padding:10px 12px;background:linear-gradient(0deg,rgba(30,6,11,.75),transparent);color:#fff;font-family:'Cormorant Garamond',serif;font-size:.95rem;opacity:0;transition:.25s}
 .gallery figure:hover .gal-caption{opacity:1}
-.gallery-note{margin-top:24px;text-align:center;font-size:.85rem;color:#6b4b45;font-style:italic}
+.gal-expand{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:50%;background:rgba(20,6,10,.45);color:#fff;display:flex;align-items:center;justify-content:center;opacity:0;transition:.25s;font-size:.95rem}
+.gallery figure:hover .gal-expand{opacity:1}
+
+/* fullscreen lightbox */
+.lightbox{position:fixed;inset:0;background:rgba(18,5,9,.94);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:3000;opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s ease}
+.lightbox.open{opacity:1;visibility:visible}
+.lightbox figure{margin:0;max-width:92vw;max-height:86vh}
+.lightbox img{max-width:92vw;max-height:78vh;object-fit:contain;box-shadow:0 30px 80px rgba(0,0,0,.5);border:1px solid rgba(246,236,219,.2)}
+.lb-caption{margin-top:16px;text-align:center;color:var(--cream);font-family:'Cormorant Garamond',serif;font-size:1.25rem}
+.lb-btn{position:absolute;background:none;border:1px solid rgba(246,236,219,.4);color:var(--cream);cursor:pointer;font-size:1.3rem;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:.2s}
+.lb-btn:hover{background:rgba(246,236,219,.15)}
+.lb-close{top:24px;right:24px}
+.lb-prev{left:24px;top:50%;transform:translateY(-50%)}
+.lb-next{right:24px;top:50%;transform:translateY(-50%)}
+@media(max-width:640px){
+  .lb-prev,.lb-next{width:38px;height:38px;font-size:1.05rem}
+  .lb-close{top:16px;right:16px;width:38px;height:38px}
+}
 
 /* reviews */
 .reviews-wrap{background:var(--cream-2)}
@@ -177,7 +221,8 @@ section{padding:96px 0}
 /* features */
 .features{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(94,15,30,.15);border:1px solid rgba(94,15,30,.15)}
 .feature{background:var(--cream);padding:34px 20px;text-align:center}
-.feature .ico{font-size:1.6rem;color:var(--burgundy);margin-bottom:10px}
+.feature .ico{width:34px;height:34px;margin:0 auto 12px;color:var(--burgundy)}
+.feature .ico svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
 .feature h4{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--burgundy);margin-bottom:4px}
 .feature p{font-size:.85rem;color:#6b4b45}
 
@@ -254,19 +299,19 @@ footer .script{color:var(--rose);font-size:1.3rem}
   .ice-item{border-right:none!important;padding:20px 4px}
   .menu-note{font-size:.92rem}
 
-  /* gallery becomes a swipeable strip, not a squashed grid */
+  /* gallery becomes a swipeable full-bleed strip, not a squashed grid */
+  #gallery .section-head{padding:0 20px}
   .gallery{
     display:flex;grid-template-columns:none;grid-auto-rows:unset;
-    overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;
-    padding-bottom:6px;margin:0 -20px;padding-left:20px;padding-right:20px;
-    -webkit-overflow-scrolling:touch;
+    overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;
+    padding:0 20px 6px;-webkit-overflow-scrolling:touch;
   }
   .gallery::-webkit-scrollbar{display:none}
   .gallery figure{flex:0 0 auto;width:74vw;height:280px;scroll-snap-align:start}
   .gallery figure.tall,.gallery figure.wide{width:74vw;grid-row:auto;grid-column:auto}
   .gallery img{height:130%}
   .gal-caption{opacity:1;background:linear-gradient(0deg,rgba(30,6,11,.8),transparent)}
-  .gallery-note{text-align:left}
+  .gal-expand{display:none}
   #gallery .section-head::after,
   #reviews .section-head::after{
     content:"свайпните →";display:block;margin-top:8px;font-family:'Cormorant Garamond',serif;
@@ -330,8 +375,24 @@ footer .script{color:var(--rose);font-size:1.3rem}
 <a id="stickyCall" href="tel:+375447967433">Позвонить</a>
 
 <section class="hero" id="hero">
-  <img class="deco-frame tl" src="img/heart1.jpg" alt="" style="border-radius:50%;aspect-ratio:1/1;object-fit:cover">
-  <img class="deco-frame br" src="img/heart2.jpg" alt="" style="border-radius:50%;aspect-ratio:1/1;object-fit:cover">
+  <div class="deco-frame tl" aria-hidden="true">
+    <div class="deco-cake">
+      <svg viewBox="-14 -14 128 108">
+        <path class="pipe-path" d="M50 85 C20 65 0 45 0 25 C0 10 12 0 25 0 C35 0 45 8 50 18 C55 8 65 0 75 0 C88 0 100 10 100 25 C100 45 80 65 50 85 Z"/>
+        <circle class="pipe-tip" r="3.4"/>
+      </svg>
+    </div>
+  </div>
+  <div class="deco-frame br" aria-hidden="true">
+    <div class="deco-cake">
+      <svg viewBox="-20 -20 140 140">
+        <circle class="deco-ring r1" cx="50" cy="50" r="30"/>
+        <circle class="deco-ring r2" cx="50" cy="50" r="30"/>
+        <circle class="deco-ring r3" cx="50" cy="50" r="30"/>
+        <path class="deco-heart-fill" d="M50 68 C32 55 20 43 20 30 C20 20 27 14 35 14 C41 14 46 18 50 24 C54 18 59 14 65 14 C73 14 80 20 80 30 C80 43 68 55 50 68 Z"/>
+      </svg>
+    </div>
+  </div>
   <div>
     <span class="eyebrow">кафе · кофейня · кондитерская</span>
     <h1>Moulinovka</h1>
@@ -419,30 +480,38 @@ footer .script{color:var(--rose);font-size:1.3rem}
 </section>
 
 <section id="gallery">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <span class="eyebrow">витрина дня</span>
-      <h2>Галерея</h2>
-    </div>
-    <div class="gallery reveal">
-      <figure class="tall"><img src="img/dessertcase1.jpg" loading="lazy" alt="Витрина десертов"><figcaption class="gal-caption">Витрина десертов</figcaption></figure>
-      <figure class="wide"><img src="img/latte_croissants.jpg" loading="lazy" alt="Круассаны и латте"><figcaption class="gal-caption">Круассаны к кофе</figcaption></figure>
-      <figure><img src="img/cheesecake.jpg" loading="lazy" alt="Тарт с шариком крема"><figcaption class="gal-caption">Тарт дня</figcaption></figure>
-      <figure><img src="img/chocotart.jpg" loading="lazy" alt="Шоколадный тарт"><figcaption class="gal-caption">Шоколадный тарт</figcaption></figure>
-      <figure class="wide"><img src="img/dessertcase2.jpg" loading="lazy" alt="Витрина кондитерской"><figcaption class="gal-caption">Кондитерская витрина</figcaption></figure>
-      <figure><img src="img/millefeuille.jpg" loading="lazy" alt="Наполеон"><figcaption class="gal-caption">Слоёный наполеон</figcaption></figure>
-      <figure class="tall"><img src="img/orchid_window.jpg" loading="lazy" alt="Уголок у окна с орхидеей"><figcaption class="gal-caption">У окна</figcaption></figure>
-      <figure><img src="img/cinnamon_roll.jpg" loading="lazy" alt="Круассан на столике"><figcaption class="gal-caption">К завтраку</figcaption></figure>
-      <figure><img src="img/mangoroll.jpg" loading="lazy" alt="Десертный рулет с манго и маракуйей"><figcaption class="gal-caption">Манго-рулет</figcaption></figure>
-      <figure><img src="img/chococake.jpg" loading="lazy" alt="Шоколадный десерт"><figcaption class="gal-caption">Шоколадный десерт</figcaption></figure>
-      <figure><img src="img/candyheart.jpg" loading="lazy" alt="Десерт с сердцем ко Дню всех влюблённых"><figcaption class="gal-caption">Ко дню влюблённых</figcaption></figure>
-      <figure><img src="img/flowersvase.jpg" loading="lazy" alt="Цветы на столике в зале"><figcaption class="gal-caption">В зале</figcaption></figure>
-      <figure><img src="img/gingerroll.jpg" loading="lazy" alt="Пряничный рулет"><figcaption class="gal-caption">Праздничная подача</figcaption></figure>
-      <figure><img src="img/gingerbox.jpg" loading="lazy" alt="Новогодние десерты"><figcaption class="gal-caption">К праздникам</figcaption></figure>
-    </div>
-    <p class="gallery-note">Фотографии — из открытой галереи заведения на Яндекс Картах (гостевые и представителя организации), носят иллюстративный характер. TODO: заменить на профессиональную фотосъёмку интерьера и десертов от владельца.</p>
+  <div class="section-head reveal">
+    <span class="eyebrow">витрина дня</span>
+    <h2>Галерея</h2>
   </div>
+  <div class="gallery reveal">
+    <figure><img src="img/dessertcase1.jpg" loading="lazy" alt="Витрина десертов"><figcaption class="gal-caption">Витрина десертов</figcaption><span class="gal-expand">⤢</span></figure>
+    <figure class="wide"><img src="img/latte_croissants.jpg" loading="lazy" alt="Круассаны и латте"><figcaption class="gal-caption">Круассаны к кофе</figcaption><span class="gal-expand">⤢</span></figure>
+    <figure><img src="img/cheesecake.jpg" loading="lazy" alt="Тарт с шариком крема"><figcaption class="gal-caption">Тарт дня</figcaption><span class="gal-expand">⤢</span></figure>
+    <figure><img src="img/chocotart.jpg" loading="lazy" alt="Шоколадный тарт"><figcaption class="gal-caption">Шоколадный тарт</figcaption><span class="gal-expand">⤢</span></figure>
+    <figure class="wide"><img src="img/dessertcase2.jpg" loading="lazy" alt="Витрина кондитерской"><figcaption class="gal-caption">Кондитерская витрина</figcaption><span class="gal-expand">⤢</span></figure>
+    <figure><img src="img/millefeuille.jpg" loading="lazy" alt="Наполеон"><figcaption class="gal-caption">Слоёный наполеон</figcaption><span class="gal-expand">⤢</span></figure>
+    <figure><img src="img/orchid_window.jpg" loading="lazy" alt="Уголок у окна с орхидеей"><figcaption class="gal-caption">У окна</figcaption><span class="gal-expand">⤢</span></figure>
+    <figure><img src="img/cinnamon_roll.jpg" loading="lazy" alt="Круассан на столике"><figcaption class="gal-caption">К завтраку</figcaption><span class="gal-expand">⤢</span></figure>
+    <figure><img src="img/mangoroll.jpg" loading="lazy" alt="Десертный рулет с манго и маракуйей"><figcaption class="gal-caption">Манго-рулет</figcaption><span class="gal-expand">⤢</span></figure>
+    <figure><img src="img/chococake.jpg" loading="lazy" alt="Шоколадный десерт"><figcaption class="gal-caption">Шоколадный десерт</figcaption><span class="gal-expand">⤢</span></figure>
+    <figure><img src="img/candyheart.jpg" loading="lazy" alt="Десерт с сердцем ко Дню всех влюблённых"><figcaption class="gal-caption">Ко дню влюблённых</figcaption><span class="gal-expand">⤢</span></figure>
+    <figure><img src="img/flowersvase.jpg" loading="lazy" alt="Цветы на столике в зале"><figcaption class="gal-caption">В зале</figcaption><span class="gal-expand">⤢</span></figure>
+    <figure><img src="img/gingerroll.jpg" loading="lazy" alt="Пряничный рулет"><figcaption class="gal-caption">Праздничная подача</figcaption><span class="gal-expand">⤢</span></figure>
+    <figure><img src="img/gingerbox.jpg" loading="lazy" alt="Новогодние десерты"><figcaption class="gal-caption">К праздникам</figcaption><span class="gal-expand">⤢</span></figure>
+  </div>
+  <!-- TODO(owner): при возможности заменить на профессиональную фотосъёмку интерьера и десертов -->
 </section>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lb-btn lb-close" id="lbClose" aria-label="Закрыть">✕</button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Предыдущее фото">‹</button>
+  <figure>
+    <img id="lbImg" src="" alt="">
+    <figcaption class="lb-caption" id="lbCaption"></figcaption>
+  </figure>
+  <button class="lb-btn lb-next" id="lbNext" aria-label="Следующее фото">›</button>
+</div>
 
 <section class="reviews-wrap" id="reviews">
   <div class="wrap">
@@ -482,10 +551,22 @@ footer .script{color:var(--rose);font-size:1.3rem}
       <h2>Особенности</h2>
     </div>
     <div class="features reveal">
-      <div class="feature"><div class="ico">🥐</div><h4>Еда навынос</h4><p>Десерты и выпечка с собой</p></div>
-      <div class="feature"><div class="ico">☕</div><h4>Кофе с собой</h4><p>Фирменный стакан Moulin</p></div>
-      <div class="feature"><div class="ico">🚚</div><h4>Доставка еды</h4><p>Заказ прямо к вам</p></div>
-      <div class="feature"><div class="ico">🐾</div><h4>Можно с собакой</h4><p>Ждём вас с питомцем</p></div>
+      <div class="feature">
+        <div class="ico"><svg viewBox="0 0 32 32"><path d="M9 12h14l-1.4 15.2a2 2 0 0 1-2 1.8H12.4a2 2 0 0 1-2-1.8L9 12Z"/><path d="M12 12V9a4 4 0 0 1 8 0v3"/></svg></div>
+        <h4>Еда навынос</h4><p>Десерты и выпечка с собой</p>
+      </div>
+      <div class="feature">
+        <div class="ico"><svg viewBox="0 0 32 32"><path d="M7 12h15v9a6 6 0 0 1-6 6h-3a6 6 0 0 1-6-6v-9Z"/><path d="M22 14h3a3 3 0 0 1 0 6h-3"/><path d="M12 6c0 1.2 1.5 1.2 1.5 2.4S12 9.6 12 10.8"/><path d="M17 6c0 1.2 1.5 1.2 1.5 2.4S17 9.6 17 10.8"/></svg></div>
+        <h4>Кофе с собой</h4><p>Фирменный стакан Moulin</p>
+      </div>
+      <div class="feature">
+        <div class="ico"><svg viewBox="0 0 32 32"><rect x="6" y="10" width="20" height="15" rx="2"/><path d="M6 15h20"/><path d="M13 10v-2a3 3 0 0 1 6 0v2"/><path d="M13 20h6"/></svg></div>
+        <h4>Доставка еды</h4><p>Заказ прямо к вам</p>
+      </div>
+      <div class="feature">
+        <div class="ico"><svg viewBox="0 0 32 32"><circle cx="11" cy="10" r="2.4"/><circle cx="19" cy="8.5" r="2.2"/><circle cx="24" cy="13.5" r="2"/><circle cx="7.5" cy="15.5" r="2"/><path d="M16 27c-4 0-6.5-2.4-6.5-5.4 0-2.6 2.4-3.6 3.6-5.7 1-1.8 1.6-3 3-3s2 1.2 3 3c1.2 2.1 3.6 3.1 3.6 5.7 0 3-2.7 5.4-6.7 5.4Z"/></svg></div>
+        <h4>Можно с собакой</h4><p>Ждём вас с питомцем</p>
+      </div>
     </div>
   </div>
 </section>
@@ -501,12 +582,12 @@ footer .script{color:var(--rose);font-size:1.3rem}
         <dl>
           <div><dt>Адрес</dt><dd>Минск, ул. Яна Чечота, 7, этаж 1<br><span style="opacity:.7;font-size:.9rem">100 м от ст. метро «Малиновка»</span></dd></div>
           <div><dt>Телефон</dt><dd><a href="tel:+375447967433">+375 44 796-74-33</a></dd></div>
-          <div><dt>Время работы</dt><dd>Ежедневно, до 21:30<br><span style="opacity:.7;font-size:.9rem">TODO: уточнить время открытия и график по дням</span></dd></div>
+          <!-- TODO(owner): уточнить время открытия и график по дням -->
+          <div><dt>Время работы</dt><dd>Ежедневно, до 21:30</dd></div>
         </dl>
         <div class="social-row">
           <a href="https://instagram.com/cafe.moulin" target="_blank" rel="noopener">Instagram</a>
           <a href="https://facebook.com/Moulin-135515166630523/" target="_blank" rel="noopener">Facebook</a>
-          <a href="https://yandex.by/maps/-/CTrmz6NA" target="_blank" rel="noopener">Яндекс Карты</a>
         </div>
       </div>
       <iframe class="map-frame" src="https://yandex.by/map-widget/v1/org/moulinovka/1174482959/?ll=27.474000%2C53.849000&z=17" loading="lazy" allowfullscreen></iframe>
@@ -606,6 +687,41 @@ footer .script{color:var(--rose);font-size:1.3rem}
     if(!ticking){ requestAnimationFrame(onScroll); ticking=true; }
   },{passive:true});
   onScroll();
+
+  /* fullscreen lightbox */
+  var figs=[].slice.call(document.querySelectorAll('.gallery figure'));
+  var lb=document.getElementById('lightbox');
+  var lbImg=document.getElementById('lbImg');
+  var lbCaption=document.getElementById('lbCaption');
+  var lbIndex=0;
+
+  function openLb(i){
+    lbIndex=(i+figs.length)%figs.length;
+    var fig=figs[lbIndex];
+    var img=fig.querySelector('img');
+    lbImg.src=img.src;
+    lbImg.alt=img.alt;
+    lbCaption.textContent=(fig.querySelector('figcaption')||{}).textContent||'';
+    lb.classList.add('open');
+    lb.setAttribute('aria-hidden','false');
+    document.body.classList.add('lock');
+  }
+  function closeLb(){
+    lb.classList.remove('open');
+    lb.setAttribute('aria-hidden','true');
+    document.body.classList.remove('lock');
+  }
+  figs.forEach(function(fig,i){ fig.addEventListener('click',function(){ openLb(i); }); });
+  document.getElementById('lbClose').addEventListener('click',closeLb);
+  document.getElementById('lbPrev').addEventListener('click',function(){ openLb(lbIndex-1); });
+  document.getElementById('lbNext').addEventListener('click',function(){ openLb(lbIndex+1); });
+  lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+  document.addEventListener('keydown',function(e){
+    if(!lb.classList.contains('open')) return;
+    if(e.key==='Escape') closeLb();
+    if(e.key==='ArrowLeft') openLb(lbIndex-1);
+    if(e.key==='ArrowRight') openLb(lbIndex+1);
+  });
 })();
 </script>
 </body>
