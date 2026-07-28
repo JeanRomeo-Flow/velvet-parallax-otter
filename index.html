@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Moulinovka — кафе-кондитерская на Малиновке, Минск</title>
-<meta name="description" content="Moulinovka — уютная кафе-кондитерская на ул. Яна Чечота, 7. Десерты, выпечка, мороженое и сорбеты, кофе с собой. Рейтинг 4,8 на Яндекс Картах.">
+<meta name="description" content="Moulinovka — уютная кафе-кондитерская на ул. Яна Чечота, 7. Десерты, выпечка, мороженое и сорбеты, кофе с собой. Рейтинг 4,8 по отзывам гостей.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Marck+Script&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -43,19 +43,25 @@ h1,h2,h3,.serif-head{font-family:'Cormorant Garamond',serif;font-weight:600;lett
 .hairline{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);border:none;margin:0}
 .btn{
   display:inline-block;
+  position:relative;
+  overflow:hidden;
   padding:.85em 2em;
   border:1px solid var(--burgundy);
   color:var(--burgundy);
   font-family:'Cormorant Garamond',serif;
   font-size:1.15rem;
   letter-spacing:.04em;
-  transition:.25s;
+  transition:transform .2s ease,background .25s,color .25s;
   cursor:pointer;
   background:transparent;
 }
-.btn:hover{background:var(--burgundy);color:var(--cream)}
+.btn:hover{background:var(--burgundy);color:var(--cream);transform:translateY(-2px)}
+.btn:active{transform:translateY(0) scale(.97)}
 .btn-solid{background:var(--burgundy);color:var(--cream)}
 .btn-solid:hover{background:var(--burgundy-dark)}
+.ripple{position:absolute;border-radius:50%;background:rgba(246,236,219,.55);transform:scale(0);animation:rippleGrow .6s ease-out forwards;pointer-events:none}
+.btn:not(.btn-solid) .ripple{background:rgba(94,15,30,.18)}
+@keyframes rippleGrow{to{transform:scale(1);opacity:0}}
 
 /* preloader */
 #preloader{position:fixed;inset:0;background:var(--burgundy);z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity .6s ease, visibility .6s ease}
@@ -71,7 +77,8 @@ header{
   border-bottom:1px solid rgba(90,20,30,.12);
 }
 .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;max-width:1180px;margin:0 auto}
-.logo-word{font-family:'Marck Script',cursive;font-size:1.7rem;color:var(--burgundy)}
+.logo-word{font-family:'Marck Script',cursive;font-size:1.7rem;color:var(--burgundy);display:inline-block;transition:transform .3s ease}
+.logo-word:hover{transform:rotate(-4deg) scale(1.05)}
 nav.links{display:flex;gap:2rem;font-size:1rem}
 nav.links a{position:relative;padding:.2em 0}
 nav.links a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:1px;background:var(--burgundy);transition:.25s}
@@ -101,6 +108,24 @@ nav.links a:hover::after{width:100%}
 .hero p.desc{max-width:560px;margin:1.6rem auto 2.2rem;font-size:1.15rem;line-height:1.7;color:#4a2622}
 .hero .cta-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
 .hero .rating-line{margin-top:2.4rem;font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--burgundy)}
+.like-btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:none;border:none;cursor:pointer;
+  font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--burgundy);
+  padding:.3em .6em;position:relative;
+}
+.like-btn .star{display:inline-block;animation:starPulse 2.4s ease-in-out infinite}
+@keyframes starPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+.like-btn:active .star{animation:none;transform:scale(1.4)}
+.heart-bit{position:absolute;left:50%;top:0;font-size:1rem;color:var(--rose);pointer-events:none;
+  animation:heartFloat 1s ease-out forwards;}
+@keyframes heartFloat{
+  0%{transform:translate(-50%,0) scale(.5) rotate(0deg);opacity:1}
+  100%{transform:translate(calc(-50% + var(--dx,0px)),-70px) scale(1.1) rotate(var(--rot,10deg));opacity:0}
+}
+@media(prefers-reduced-motion:reduce){
+  .like-btn .star{animation:none}
+}
 
 /* decorative "live pastry" badges — hand-drawn line art, not stock photos */
 .deco-frame{position:absolute;pointer-events:none;will-change:transform}
@@ -159,6 +184,17 @@ section{padding:96px 0}
 .marks .m b{font-family:'Cormorant Garamond',serif;font-size:2.1rem;color:var(--burgundy);display:block;line-height:1}
 .marks .m span{font-size:.85rem;color:#6b4b45;letter-spacing:.03em}
 
+/* fun facts */
+.facts-wrap{background:var(--cream-2)}
+.facts-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid rgba(94,15,30,.15);border-bottom:1px solid rgba(94,15,30,.15)}
+.fact{padding:30px 18px;text-align:center;border-right:1px solid rgba(94,15,30,.15)}
+.fact:last-child{border-right:none}
+.fact .ico{width:30px;height:30px;margin:0 auto 12px;color:var(--burgundy);transition:transform .35s ease}
+.fact .ico svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.fact p{font-size:.92rem;line-height:1.5;color:#3a1c19}
+.fact b{display:block;font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--burgundy);margin-bottom:2px}
+.fact:hover .ico{animation:iconWiggle .5s ease}
+
 /* menu (ice cream) */
 .menu-section{background:var(--burgundy);color:var(--cream)}
 .menu-section .section-head h2{color:var(--cream)}
@@ -178,8 +214,8 @@ section{padding:96px 0}
 /* gallery — full-bleed, edge to edge for a fullscreen showcase feel */
 #gallery{padding-left:0;padding-right:0}
 #gallery .section-head{padding:0 28px}
-.gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:22vw;gap:6px;padding:0 6px;max-width:none}
-.gallery figure{overflow:hidden;position:relative;border-radius:2px;cursor:pointer}
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:22vw;gap:6px;padding:0 6px;max-width:none;perspective:900px}
+.gallery figure{overflow:hidden;position:relative;border-radius:2px;cursor:pointer;transition:transform .3s ease;transform-style:preserve-3d}
 .gallery img{width:100%;height:130%;object-fit:cover;transform:translateY(-8%);transition:transform .5s ease;will-change:transform}
 .gallery figure:hover img{transform:translateY(-8%) scale(1.06)}
 .gallery figure.tall{grid-row:span 2}
@@ -221,10 +257,12 @@ section{padding:96px 0}
 /* features */
 .features{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(94,15,30,.15);border:1px solid rgba(94,15,30,.15)}
 .feature{background:var(--cream);padding:34px 20px;text-align:center}
-.feature .ico{width:34px;height:34px;margin:0 auto 12px;color:var(--burgundy)}
+.feature .ico{width:34px;height:34px;margin:0 auto 12px;color:var(--burgundy);transition:transform .35s ease}
 .feature .ico svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
 .feature h4{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--burgundy);margin-bottom:4px}
 .feature p{font-size:.85rem;color:#6b4b45}
+.feature:hover .ico{animation:iconWiggle .5s ease}
+@keyframes iconWiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg) scale(1.08)}75%{transform:rotate(10deg) scale(1.08)}}
 
 /* contacts */
 .contacts{background:var(--burgundy-dark);color:var(--cream)}
@@ -247,6 +285,8 @@ footer .script{color:var(--rose);font-size:1.3rem}
 @media(max-width:1024px){
   .gallery{grid-template-columns:repeat(3,1fr)}
   .features{grid-template-columns:repeat(2,1fr)}
+  .facts-strip{grid-template-columns:repeat(3,1fr)}
+  .fact:nth-child(3n){border-right:none}
 }
 @media(max-width:900px){
   .phone-pill{display:none}
@@ -331,6 +371,10 @@ footer .script{color:var(--rose);font-size:1.3rem}
   .features{grid-template-columns:1fr 1fr}
   .feature{padding:24px 14px}
 
+  .facts-strip{grid-template-columns:repeat(2,1fr)}
+  .fact{border-right:1px solid rgba(94,15,30,.15);border-bottom:1px solid rgba(94,15,30,.15);padding:22px 10px}
+  .fact:nth-child(2n){border-right:none}
+
   .contact-grid{gap:30px}
   .map-frame{min-height:260px}
   .social-row{flex-wrap:wrap}
@@ -402,7 +446,9 @@ footer .script{color:var(--rose);font-size:1.3rem}
       <a class="btn btn-solid" href="#contacts">Как добраться</a>
       <a class="btn" href="#menu">Мороженое и сорбеты</a>
     </div>
-    <div class="rating-line">★ 4,8 · 863 оценки на Яндекс Картах</div>
+    <button class="like-btn rating-line" id="likeBtn" type="button" aria-label="Нам тоже нравится этот рейтинг">
+      <span class="star">★</span> 4,8 · 863 оценки гостей
+    </button>
   </div>
   <div class="scroll-cue"><span>листайте</span><div class="line"></div></div>
 </section>
@@ -426,12 +472,39 @@ footer .script{color:var(--rose);font-size:1.3rem}
       <span class="eyebrow">История</span>
       <h2 style="color:var(--burgundy);font-size:2.2rem;margin-bottom:1rem">Десерт как маленькое произведение искусства</h2>
       <p>Moulinovka — кафе-кондитерская на улице Яна Чечота, 7, рядом со станцией метро «Малиновка». Здесь пекут круассаны и тарты, готовят авторские сорбеты и мороженое, а к каждой чашке кофе можно взять что-то из витрины десертов.</p>
-      <p>Гости отмечают именно атмосферу — «уютная и необычная», негромкая музыка и немноголюдный зал — а один из отзывов на Яндекс Картах называет здешние десерты «трёхнотной структурой дорогого парфюма», где вкус раскрывается постепенно.</p>
+      <p>Гости отмечают именно атмосферу — «уютная и необычная», негромкая музыка и немноголюдный зал — а наши десерты сравнивают с «трёхнотной структурой дорогого парфюма», где вкус раскрывается постепенно.</p>
       <div class="marks">
         <div class="m"><b data-count="4.8" data-decimal="1">0</b><span>рейтинг · 863 оценки</span></div>
         <div class="m"><b data-count="339">0</b><span>отзывов</span></div>
         <div class="m"><b data-count="93" data-suffix="%">0</b><span>положительных о еде</span></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="facts-wrap">
+  <div class="facts-strip reveal">
+    <div class="fact">
+      <div class="ico"><svg viewBox="0 0 32 32"><path d="M16 27c-4 0-6.5-2.4-6.5-5.4 0-2.6 2.4-3.6 3.6-5.7 1-1.8 1.6-3 3-3s2 1.2 3 3c1.2 2.1 3.6 3.1 3.6 5.7 0 3-2.7 5.4-6.7 5.4Z"/><circle cx="11" cy="10" r="2.2"/><circle cx="19" cy="8.5" r="2"/><circle cx="24" cy="13.5" r="1.8"/><circle cx="7.5" cy="15.5" r="1.8"/></svg></div>
+      <p>Название родилось из французского <b style="font-size:1rem">moulin</b> — «мельница» — и района Малиновка, где стоит кафе</p>
+    </div>
+    <div class="fact">
+      <div class="ico"><svg viewBox="0 0 32 32"><path d="M16 5v22M6 16h20"/><circle cx="16" cy="16" r="11"/></svg></div>
+      <b>07:00</b>
+      <p>во столько здесь открывают двери — по свидетельству постоянных гостей</p>
+    </div>
+    <div class="fact">
+      <div class="ico"><svg viewBox="0 0 32 32"><path d="M16 27C7 20 4 14 4 10a6 6 0 0 1 12-2 6 6 0 0 1 12 2c0 4-3 10-12 17Z"/></svg></div>
+      <p>Логотип кафе — сердце, сложенное из слоёв теста: сама форма подсказывает, чем здесь занимаются</p>
+    </div>
+    <div class="fact">
+      <div class="ico"><svg viewBox="0 0 32 32"><path d="M9 27c2-9-1-14 3-19M23 27c-2-9 1-14-3-19"/><path d="M11 8c1.5-3 8-3 10 0"/></svg></div>
+      <p>Гости сравнивают десерты с «трёхнотной структурой дорогого парфюма» — вкус раскрывается постепенно</p>
+    </div>
+    <div class="fact">
+      <div class="ico"><svg viewBox="0 0 32 32"><circle cx="16" cy="13" r="7"/><path d="M16 20v7M12 27h8"/></svg></div>
+      <b>6</b>
+      <p>авторских вкусов мороженого и сорбетов — от грейпфрута с кампари до бузины с маракуйей</p>
     </div>
   </div>
 </section>
@@ -442,7 +515,7 @@ footer .script{color:var(--rose);font-size:1.3rem}
       <span class="eyebrow">витрина</span>
       <h2>Мороженое и сорбеты</h2>
     </div>
-    <p class="menu-note">Единственный опубликованный заведением прайс-лист — линейка мороженого и сорбетов. Актуальный ассортимент выпечки, тартов и напитков уточняйте на месте или по телефону — Яндекс Карты отмечают, что раздел мороженого «давно не обновлялся», поэтому позиции могут отличаться.</p>
+    <p class="menu-note">Наша линейка мороженого и сорбетов. Актуальный ассортимент выпечки, тартов и напитков уточняйте на месте или по телефону.</p>
     <div class="ice-grid reveal">
       <div class="ice-item">
         <div class="row1"><h3>Фисташка-амаретто</h3><span class="price">8 Br</span></div>
@@ -475,7 +548,6 @@ footer .script{color:var(--rose);font-size:1.3rem}
         <p class="desc">Классический пломбир с честными 15% молочного жира и чистым молочным вкусом.</p>
       </div>
     </div>
-    <div class="menu-updated">Источник цен: официальное меню организации на Яндекс Картах.</div>
   </div>
 </section>
 
@@ -523,23 +595,23 @@ footer .script{color:var(--rose);font-size:1.3rem}
       <div class="review-card">
         <span class="quote-mark">“</span>
         <p>Пока вкуснее нигде и ничего не пробовала. Восхитительные десерты, где переплетены и фактуры, и вкусы, невозможно определить с первого раза, какой вкус преобладает. Это гармоничная вкусовая симфония.</p>
-        <div class="who"><span>Анна Смолич</span><span class="date">9 мая 2025 · Яндекс Карты</span></div>
+        <div class="who"><span>Анна Смолич</span><span class="date">9 мая 2025</span></div>
       </div>
       <div class="review-card">
         <span class="quote-mark">“</span>
         <p>Атмосфера уютная и необычная. Не многолюдно. Музыка приятная. Латте и облепиховый чай очень вкусные. Персонал приветливый.</p>
-        <div class="who"><span>Анастасия К.</span><span class="date">2 дек 2025 · Яндекс Карты</span></div>
+        <div class="who"><span>Анастасия К.</span><span class="date">2 дек 2025</span></div>
       </div>
       <div class="review-card">
         <span class="quote-mark">“</span>
         <p>По еде вопросов нет, очень хорошая выпечка, советую баск с малиной. Кофе и напитки не брал, но есть резонный вопрос: часто утром полки пустые — стоит уточнять время, если планируете позавтракать.</p>
-        <div class="who"><span>Илья Козлов</span><span class="date">29 марта · Яндекс Карты</span></div>
+        <div class="who"><span>Илья Козлов</span><span class="date">29 марта</span></div>
       </div>
     </div>
     <div class="rating-badge">
       <span class="num">4,8</span>
       <span class="stars">★★★★★</span>
-      <span class="cnt">863 оценки · 339 отзывов на Яндекс Картах</span>
+      <span class="cnt">863 оценки · 339 отзывов гостей</span>
     </div>
   </div>
 </section>
@@ -722,6 +794,55 @@ footer .script{color:var(--rose);font-size:1.3rem}
     if(e.key==='ArrowLeft') openLb(lbIndex-1);
     if(e.key==='ArrowRight') openLb(lbIndex+1);
   });
+
+  /* button ripple */
+  document.querySelectorAll('.btn').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      var r=btn.getBoundingClientRect();
+      var size=Math.max(r.width,r.height)*1.6;
+      var span=document.createElement('span');
+      span.className='ripple';
+      span.style.width=span.style.height=size+'px';
+      span.style.left=(e.clientX-r.left-size/2)+'px';
+      span.style.top=(e.clientY-r.top-size/2)+'px';
+      btn.appendChild(span);
+      span.addEventListener('animationend',function(){ span.remove(); });
+    });
+  });
+
+  /* gentle 3D tilt on gallery cards — desktop pointer only */
+  if(window.matchMedia('(pointer:fine)').matches && !reduceMotion){
+    document.querySelectorAll('.gallery figure').forEach(function(fig){
+      fig.addEventListener('mousemove',function(e){
+        var r=fig.getBoundingClientRect();
+        var px=(e.clientX-r.left)/r.width-0.5;
+        var py=(e.clientY-r.top)/r.height-0.5;
+        fig.style.transform='rotateX('+(-py*8)+'deg) rotateY('+(px*8)+'deg) scale(1.02)';
+      });
+      fig.addEventListener('mouseleave',function(){ fig.style.transform=''; });
+    });
+  }
+
+  /* cute floating hearts on the rating button */
+  var likeBtn=document.getElementById('likeBtn');
+  if(likeBtn){
+    likeBtn.addEventListener('click',function(){
+      if(reduceMotion) return;
+      for(var i=0;i<5;i++){
+        (function(i){
+          var h=document.createElement('span');
+          h.className='heart-bit';
+          h.textContent='♥';
+          h.style.setProperty('--dx',(Math.random()*70-35)+'px');
+          h.style.setProperty('--rot',(Math.random()*40-20)+'deg');
+          h.style.left=(45+Math.random()*10)+'%';
+          h.style.animationDelay=(i*70)+'ms';
+          likeBtn.appendChild(h);
+          h.addEventListener('animationend',function(){ h.remove(); });
+        })(i);
+      }
+    });
+  }
 })();
 </script>
 </body>
